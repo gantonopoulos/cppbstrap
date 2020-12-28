@@ -1,16 +1,31 @@
-# This is a sample Python script.
+import sys, argparse
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+8 to toggle the breakpoint.
+def create_project_workspace():
+    pass
 
 
-# Press the green button in the gutter to run the script.
+def create_dir_structure():
+    pass
+
+
+def create_main_cpp_files():
+    pass
+
+
+def create_cmake_lists():
+    pass
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    parser = argparse.ArgumentParser(prog='cppbstrap')
+    parser.add_argument('name', help='The name of the project')
+    args = parser.parse_args()
+    print(args.name)
+    #parser.print_help()
+    #args = parser.parse_args()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+    # create_project_workspace()
+    # create_dir_structure()
+    # create_main_cpp_files()
+    # create_cmake_lists()
