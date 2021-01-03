@@ -1,11 +1,9 @@
 import os.path
 import argparse
-from typing import Callable
 
 
-def create_project_workspace():
-    pass
-
+def create_project_workspace(project_path: str, project_name: str):
+    os.mkdir(os.path.join(project_path, project_name))
 
 def create_dir_structure():
     pass
@@ -32,13 +30,9 @@ if __name__ == '__main__':
                                                           'directory will be placed')
     parser.add_argument('Name', help='The name of the project')
     args = parser.parse_args()
-    print('Name:' + args.Name)
-    print('Path :' + os.path.abspath(args.Path))
-    validate_path(os.path.abspath(args.Path))
-
-
-
-    # create_project_workspace()
+    absPath = os.path.abspath(args.Path)
+    validate_path(absPath)
+    create_project_workspace(absPath, args.Name)
     # create_dir_structure()
     # create_main_cpp_files()
     # create_cmake_lists()
