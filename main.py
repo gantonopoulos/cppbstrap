@@ -2,14 +2,34 @@ import os.path
 import argparse
 
 
-def create_project_workspace(project_path: str, project_name: str):
-    os.mkdir(os.path.join(project_path, project_name))
+class ProjectWorkspace:
+    workspace_path: str
+    __SOURCE_DIR: str = 'src'
+    __UNIT_TESTS_DIR: str = 'test'
 
-def create_dir_structure():
-    pass
+    def __init__(self, project_path: str):
+        self.workspace_path = project_path
+
+    def get_unit_test_path(self) -> str:
+        return os.path.join(self.workspace_path, self.__UNIT_TESTS_DIR)
+
+    def get_src_path(self) -> str:
+        return os.path.join(self.workspace_path, self.__SOURCE_DIR)
+
+    def get_workspace_path(self) -> str:
+        return self.workspace_path
 
 
-def create_main_cpp_files():
+def create_project_workspace(workspace_path: str):
+    os.mkdir(workspace_path)
+
+
+def create_dir_structure(workspace: ProjectWorkspace):
+    os.mkdir(workspace.get_src_path())
+    os.mkdir(workspace.get_unit_test_path())
+
+
+def create_main_cpp_files(workspace: ProjectWorkspace):
     pass
 
 
@@ -32,7 +52,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     absPath = os.path.abspath(args.Path)
     validate_path(absPath)
-    create_project_workspace(absPath, args.Name)
-    # create_dir_structure()
+    project_workspace = ProjectWorkspace(os.path.join(absPath, args.Name))
+    create_project_workspace(project_workspace)
+    create_dir_structure(project_workspace)
     # create_main_cpp_files()
     # create_cmake_lists()
