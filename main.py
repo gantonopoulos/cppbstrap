@@ -4,8 +4,8 @@ import argparse
 from WorkspaceLocation import WorkspaceLocation
 
 
-def create_project_workspace(workspace_path: str):
-    os.mkdir(workspace_path)
+def create_project_workspace(location: WorkspaceLocation):
+    os.mkdir(location.get_workspace_path())
 
 
 def create_dir_structure(workspace: WorkspaceLocation):
@@ -13,8 +13,16 @@ def create_dir_structure(workspace: WorkspaceLocation):
     os.mkdir(workspace.get_unit_test_path())
 
 
-def create_main_cpp_files(workspace: WorkspaceLocation):
-    pass
+def create_main_cpp_files(location: WorkspaceLocation):
+    static_content = "#include <iostream> \n\n" \
+                     "int main() \n" \
+                     "{ \n" \
+                     "\tstd::cout << \"Hello, World!\" << std::endl; \n" \
+                     "\treturn 0;\n" \
+                     "}\n"
+
+    with open(os.path.join(location.get_src_path(), "main.cpp"), 'w') as file:
+        file.write(static_content)
 
 
 def create_cmake_lists():
@@ -39,5 +47,5 @@ if __name__ == '__main__':
     project_workspace = WorkspaceLocation(os.path.join(absPath, args.Name))
     create_project_workspace(project_workspace)
     create_dir_structure(project_workspace)
-    # create_main_cpp_files()
+    create_main_cpp_files(project_workspace)
     # create_cmake_lists()
