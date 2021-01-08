@@ -41,8 +41,46 @@ def create_test_main(location: WorkspaceLocation):
         file.write(static_content)
 
 
-def create_cmake_lists():
-    pass
+def create_workspace_cmakelists(project_name: str, location: WorkspaceLocation):
+    static_content = "cmake_minimum_required(VERSION 3.17)\n" \
+                     "project(" + project_name + ")\n\n" \
+                     "set(CMAKE_CXX_STANDARD 14)\n\n" \
+                     "include_directories(src)\n" \
+                     "add_subdirectory(src)\n" \
+                     "add_subdirectory(test)\n"
+
+    with open(os.path.join(location.get_workspace_path(), "CMakeLists.txt"), 'w') as file:
+        file.write(static_content)
+
+
+def create_src_cmakelists(location: WorkspaceLocation):
+    static_content = "cmake_minimum_required(VERSION 3.17) \n" \
+                     "set(BINARY ${CMAKE_PROJECT_NAME}) \n" \
+                     "file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp) \n" \
+                     "set(SOURCES ${SOURCES}) \n" \
+                     "add_executable(${BINARY}_run ${SOURCES}) \n" \
+                     "add_library(${BINARY}_lib STATIC ${SOURCES})\n"
+
+    with open(os.path.join(location.get_src_path(), "CMakeLists.txt"), 'w') as file:
+        file.write(static_content)
+
+
+def create_test_cmakelists(location: WorkspaceLocation):
+    static_content = "find_package(GTest REQUIRED) \n" \
+                     "set(BINARY ${CMAKE_PROJECT_NAME}_tst) \n" \
+                     "file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp) \n" \
+                     "set(SOURCES ${TEST_SOURCES}) \n" \
+                     "add_executable(${BINARY} ${TEST_SOURCES}) \n" \
+                     "target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib ${GTEST_BOTH_LIBRARIES})\n"
+
+    with open(os.path.join(location.get_unit_test_path(), "CMakeLists.txt"), 'w') as file:
+        file.write(static_content)
+
+
+def create_cmake_lists(project_name: str, location: WorkspaceLocation):
+    create_workspace_cmakelists(project_name, location)
+    create_src_cmakelists(location)
+    create_test_cmakelists(location)
 
 
 def validate_path(path_to_validate: str):
@@ -64,4 +102,4 @@ if __name__ == '__main__':
     create_project_workspace(project_workspace)
     create_dir_structure(project_workspace)
     create_main_cpp_files(project_workspace)
-    # create_cmake_lists()
+    create_cmake_lists(args.Name, project_workspace)
