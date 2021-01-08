@@ -14,14 +14,30 @@ def create_dir_structure(workspace: WorkspaceLocation):
 
 
 def create_main_cpp_files(location: WorkspaceLocation):
+    create_src_main(location)
+    create_test_main(location)
+
+
+def create_src_main(location: WorkspaceLocation):
     static_content = "#include <iostream> \n\n" \
                      "int main() \n" \
                      "{ \n" \
                      "\tstd::cout << \"Hello, World!\" << std::endl; \n" \
                      "\treturn 0;\n" \
                      "}\n"
-
     with open(os.path.join(location.get_src_path(), "main.cpp"), 'w') as file:
+        file.write(static_content)
+
+
+def create_test_main(location: WorkspaceLocation):
+    static_content = "#include <gtest/gtest.h> \n\n" \
+                     "int main(int argc, char **argv)\n" \
+                     "{\n" \
+                     "\t::testing::InitGoogleTest(&argc, argv);\n" \
+                     "\treturn RUN_ALL_TESTS();\n" \
+                     "}\n"
+
+    with open(os.path.join(location.get_unit_test_path(), "main.cpp"), 'w') as file:
         file.write(static_content)
 
 
