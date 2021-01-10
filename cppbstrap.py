@@ -1,7 +1,7 @@
 import os.path
 import argparse
 
-from WorkspaceLocation import WorkspaceLocation
+from workspacelocation import WorkspaceLocation
 
 
 def create_project_workspace(location: WorkspaceLocation):
