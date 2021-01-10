@@ -30,7 +30,7 @@ compiles the code as a library which then references from the Unit-Tests. I want
 This is the same as in raymii's guide, only I do not need the lib directory since the project will not be hosting a 
 clone of GTest.
 
-![Directory Structure](./DirectoryStructure.png)
+![Directory Structure](docs/images/DirectoryStructure.png)
 
 I have an src directory for my source code, and a test directory for my unit tests. Along with the project's workspace, 
 this means 3 CMakeLists.txt files. 
@@ -74,7 +74,7 @@ We want to be able to build the code :
 2. as a statically linked library 
 
 CLion recognizes this and automatically prepares and offers two separate build configurations, one for each case.
-![Configurations](Configurations.png)
+![Configurations](docs/images/Configurations.png)
 We discuss the importance of the static library build in the next part. 
 
 **3. Test directory CMakeLists.txt** 
@@ -97,9 +97,6 @@ add_executable(${BINARY} ${TEST_SOURCES}) #2
  
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib ${GTEST_BOTH_LIBRARIES}) #3 
 ~~~
- 
-
- 
 
 I found that I didn't need the enable_tests and add_test directives to compile and run my tests. I wasn't able to figure
 out why not.  
